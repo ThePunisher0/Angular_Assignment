@@ -75,6 +75,8 @@ export class EmployeeFormComponent implements OnInit {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.value;
 
+      console.log('Form values before submit:', formValue);
+
       if (this.isEditMode && this.employeeId) {
         this.employeeService.updateEmployee(this.employeeId, formValue);
       } else {
