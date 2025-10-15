@@ -1,0 +1,47 @@
+<div class="p-6 max-w-7xl mx-auto">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b-2 border-blue-500 gap-4">
+    <h2 class="text-2xl font-bold text-gray-800 m-0">Employee Management</h2>
+    <button class="bg-green-500 hover:bg-green-600 text-white border-0 py-2 px-5 rounded-md cursor-pointer no-underline inline-block transition-colors duration-200 font-medium" routerLink="/employee/add">Add Employee</button>
+  </div>
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-gray-50">
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Name</th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Email</th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Department</th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Job Title</th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Employment Type</th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Status</th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (employee of employees$ | async; track employee.id) {
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+              <td class="p-4 border-b border-gray-100">{{ employee.firstName }} {{ employee.lastName }}</td>
+              <td class="p-4 border-b border-gray-100">{{ employee.email }}</td>
+              <td class="p-4 border-b border-gray-100">{{ getDepartmentName(employee.departmentId) }}</td>
+              <td class="p-4 border-b border-gray-100">{{ employee.jobTitle }}</td>
+              <td class="p-4 border-b border-gray-100">{{ employee.employmentType }}</td>
+              <td class="p-4 border-b border-gray-100">
+                @if (employee.isActive) {
+                  <span class="py-1 px-3 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                } @else {
+                  <span class="py-1 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>
+                }
+              </td>
+              <td class="p-4 border-b border-gray-100">
+                <div class="flex gap-2">
+                  <button class="bg-blue-500 hover:bg-blue-600 text-white border-0 py-2 px-3 rounded-md cursor-pointer no-underline text-sm transition-colors duration-200 font-medium" [routerLink]="['/employee/edit', employee.id]">Edit</button>
+                  <button class="bg-red-500 hover:bg-red-600 text-white border-0 py-2 px-3 rounded-md cursor-pointer text-sm transition-colors duration-200 font-medium" (click)="onDeleteEmployee(employee.id)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

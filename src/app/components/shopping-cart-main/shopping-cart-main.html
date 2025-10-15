@@ -1,0 +1,79 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">Mini Shopping Cart</h1>
+        <p class="text-lg text-gray-600">
+          Built with Angular 20 • Components • Services • BehaviorSubject
+        </p>
+
+        <!-- Feature badges -->
+        <div class="flex flex-wrap justify-center gap-2 mt-4">
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+          >
+            Components & Communication
+          </span>
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
+          >
+            Services & State Management
+          </span>
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+          >
+            BehaviorSubject & Observables
+          </span>
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800"
+          >
+            Reactive Updates
+          </span>
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-800"
+          >
+            Tailwind CSS
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+      <!-- Products Section -->
+      <div class="xl:col-span-2">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-blue-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                ></path>
+              </svg>
+              Available Products
+            </h2>
+          </div>
+          <app-product-list></app-product-list>
+        </div>
+      </div>
+
+      <!-- Cart Section -->
+      <div class="xl:col-span-1">
+        <div class="sticky top-8">
+          <app-shopping-cart></app-shopping-cart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
