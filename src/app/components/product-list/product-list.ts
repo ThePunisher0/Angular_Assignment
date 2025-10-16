@@ -10,7 +10,10 @@ import { Product } from '../../models/product-model';
   styleUrls: ['./product-list.scss'],
 })
 export class ProductListComponent implements OnInit {
+  // Injects the CartService to manage shopping cart operations.
   private cartService = inject(CartService);
+
+  // Readonly array of product data, serving as a mock product catalog.
   readonly products: Product[] = [
     {
       id: 1,
@@ -55,7 +58,14 @@ export class ProductListComponent implements OnInit {
       description: 'Professional DSLR camera',
     },
   ];
+
+  // Lifecycle hook, called once after component initialization.
   ngOnInit(): void {}
+
+  /**
+   * Adds a selected product to the shopping cart.
+   * @param product The product object to be added.
+   */
   addToCart(product: Product): void {
     this.cartService.addToCart(product);
   }

@@ -1,202 +1,278 @@
 <div class="max-w-4xl mx-auto p-6">
+  <!-- Page header, dynamically showing "Edit Employee" or "Add New Employee" -->
   <div class="mb-8 pb-4 border-b-2 border-blue-500">
-    <h2 class="text-2xl font-bold text-gray-800 m-0">{{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}</h2>
+    <h2 class="text-2xl font-bold text-gray-800 m-0">
+      {{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}
+    </h2>
   </div>
 
-  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow-md p-8">
-    <!-- Basic Information Section -->
+  <!-- The main employee form, using Angular's Reactive Forms for data handling -->
+  <form
+    [formGroup]="employeeForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-white rounded-lg shadow-md p-8"
+  >
+    <!-- Section for basic employee information -->
     <div class="mb-8 pb-6 border-b border-gray-200">
       <h3 class="text-lg font-semibold text-gray-800 mb-6 m-0">Basic Information</h3>
-      
+
+      <!-- Grid layout for first name and last name fields -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- First Name field -->
         <div class="flex flex-col">
           <label for="firstName" class="mb-2 font-medium text-gray-800">First Name *</label>
-          <input 
-            type="text" 
-            id="firstName" 
+          <input
+            type="text"
+            id="firstName"
             formControlName="firstName"
-            [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('firstName') ? 'border-red-500' : 'border-gray-300')"
-            placeholder="Enter first name">
+            [class]="
+              'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+              (isFieldInvalid('firstName') ? 'border-red-500' : 'border-gray-300')
+            "
+            placeholder="Enter first name"
+          />
           @if (isFieldInvalid('firstName')) {
-            <div class="text-red-500 text-xs mt-1">
-              {{ getFieldError('firstName') }}
-            </div>
+          <div class="text-red-500 text-xs mt-1">
+            {{ getFieldError('firstName') }}
+          </div>
           }
         </div>
 
+        <!-- Last Name field -->
         <div class="flex flex-col">
           <label for="lastName" class="mb-2 font-medium text-gray-800">Last Name *</label>
-          <input 
-            type="text" 
-            id="lastName" 
+          <input
+            type="text"
+            id="lastName"
             formControlName="lastName"
-            [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('lastName') ? 'border-red-500' : 'border-gray-300')"
-            placeholder="Enter last name">
+            [class]="
+              'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+              (isFieldInvalid('lastName') ? 'border-red-500' : 'border-gray-300')
+            "
+            placeholder="Enter last name"
+          />
           @if (isFieldInvalid('lastName')) {
-            <div class="text-red-500 text-xs mt-1">
-              {{ getFieldError('lastName') }}
-            </div>
+          <div class="text-red-500 text-xs mt-1">
+            {{ getFieldError('lastName') }}
+          </div>
           }
         </div>
       </div>
 
+      <!-- Grid layout for email and phone number fields -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Email Address field -->
         <div class="flex flex-col">
           <label for="email" class="mb-2 font-medium text-gray-800">Email Address *</label>
-          <input 
-            type="email" 
-            id="email" 
+          <input
+            type="email"
+            id="email"
             formControlName="email"
-            [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('email') ? 'border-red-500' : 'border-gray-300')"
-            placeholder="Enter email">
+            [class]="
+              'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+              (isFieldInvalid('email') ? 'border-red-500' : 'border-gray-300')
+            "
+            placeholder="Enter email"
+          />
           @if (isFieldInvalid('email')) {
-            <div class="text-red-500 text-xs mt-1">
-              {{ getFieldError('email') }}
-            </div>
+          <div class="text-red-500 text-xs mt-1">
+            {{ getFieldError('email') }}
+          </div>
           }
         </div>
 
+        <!-- Phone Number field (optional) -->
         <div class="flex flex-col">
           <label for="phoneNumber" class="mb-2 font-medium text-gray-800">Phone Number</label>
-          <input 
-            type="text" 
-            id="phoneNumber" 
+          <input
+            type="text"
+            id="phoneNumber"
             formControlName="phoneNumber"
             class="p-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter phone number">
+            placeholder="Enter phone number"
+          />
         </div>
       </div>
 
+      <!-- Department dropdown field -->
       <div class="flex flex-col">
         <label for="departmentId" class="mb-2 font-medium text-gray-800">Department *</label>
-        <select 
-          id="departmentId" 
+        <select
+          id="departmentId"
           formControlName="departmentId"
-          [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('departmentId') ? 'border-red-500' : 'border-gray-300')">
+          [class]="
+            'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+            (isFieldInvalid('departmentId') ? 'border-red-500' : 'border-gray-300')
+          "
+        >
           <option value="">Select department</option>
           @for (dept of departments; track dept.id) {
-            <option [value]="dept.id">
-              {{ dept.name }}
-            </option>
+          <option [value]="dept.id">
+            {{ dept.name }}
+          </option>
           }
         </select>
         @if (isFieldInvalid('departmentId')) {
-          <div class="text-red-500 text-xs mt-1">
-            {{ getFieldError('departmentId') }}
-          </div>
+        <div class="text-red-500 text-xs mt-1">
+          {{ getFieldError('departmentId') }}
+        </div>
         }
       </div>
     </div>
 
-    <!-- Job Details Section -->
+    <!-- Section for job-related details -->
     <div class="mb-8 pb-6 border-b border-gray-200">
       <h3 class="text-lg font-semibold text-gray-800 mb-6 m-0">Job Details</h3>
-      
+
+      <!-- Grid layout for job title and employment type -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Job Title field -->
         <div class="flex flex-col">
           <label for="jobTitle" class="mb-2 font-medium text-gray-800">Job Title *</label>
-          <input 
-            type="text" 
-            id="jobTitle" 
+          <input
+            type="text"
+            id="jobTitle"
             formControlName="jobTitle"
-            [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('jobTitle') ? 'border-red-500' : 'border-gray-300')"
-            placeholder="Enter job title">
+            [class]="
+              'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+              (isFieldInvalid('jobTitle') ? 'border-red-500' : 'border-gray-300')
+            "
+            placeholder="Enter job title"
+          />
           @if (isFieldInvalid('jobTitle')) {
-            <div class="text-red-500 text-xs mt-1">
-              {{ getFieldError('jobTitle') }}
-            </div>
+          <div class="text-red-500 text-xs mt-1">
+            {{ getFieldError('jobTitle') }}
+          </div>
           }
         </div>
 
+        <!-- Employment Type dropdown -->
         <div class="flex flex-col">
-          <label for="employmentType" class="mb-2 font-medium text-gray-800">Employment Type *</label>
-          <select 
-            id="employmentType" 
+          <label for="employmentType" class="mb-2 font-medium text-gray-800"
+            >Employment Type *</label
+          >
+          <select
+            id="employmentType"
             formControlName="employmentType"
-            [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('employmentType') ? 'border-red-500' : 'border-gray-300')">
+            [class]="
+              'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+              (isFieldInvalid('employmentType') ? 'border-red-500' : 'border-gray-300')
+            "
+          >
             <option value="">Select type</option>
             @for (type of employmentTypes; track type) {
-              <option [value]="type">
-                {{ type }}
-              </option>
+            <option [value]="type">
+              {{ type }}
+            </option>
             }
           </select>
           @if (isFieldInvalid('employmentType')) {
-            <div class="text-red-500 text-xs mt-1">
-              {{ getFieldError('employmentType') }}
-            </div>
+          <div class="text-red-500 text-xs mt-1">
+            {{ getFieldError('employmentType') }}
+          </div>
           }
         </div>
       </div>
 
+      <!-- Grid layout for joining date and salary fields -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Joining Date field -->
         <div class="flex flex-col">
           <label for="joiningDate" class="mb-2 font-medium text-gray-800">Joining Date *</label>
-          <input 
-            type="date" 
-            id="joiningDate" 
+          <input
+            type="date"
+            id="joiningDate"
             formControlName="joiningDate"
-            [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('joiningDate') ? 'border-red-500' : 'border-gray-300')">
+            [class]="
+              'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+              (isFieldInvalid('joiningDate') ? 'border-red-500' : 'border-gray-300')
+            "
+          />
           @if (isFieldInvalid('joiningDate')) {
-            <div class="text-red-500 text-xs mt-1">
-              {{ getFieldError('joiningDate') }}
-            </div>
+          <div class="text-red-500 text-xs mt-1">
+            {{ getFieldError('joiningDate') }}
+          </div>
           }
         </div>
 
+        <!-- Salary field -->
         <div class="flex flex-col">
           <label for="salary" class="mb-2 font-medium text-gray-800">Salary *</label>
-          <input 
-            type="number" 
-            id="salary" 
+          <input
+            type="number"
+            id="salary"
             formControlName="salary"
-            [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('salary') ? 'border-red-500' : 'border-gray-300')"
-            placeholder="Enter salary">
+            [class]="
+              'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+              (isFieldInvalid('salary') ? 'border-red-500' : 'border-gray-300')
+            "
+            placeholder="Enter salary"
+          />
           @if (isFieldInvalid('salary')) {
-            <div class="text-red-500 text-xs mt-1">
-              {{ getFieldError('salary') }}
-            </div>
+          <div class="text-red-500 text-xs mt-1">
+            {{ getFieldError('salary') }}
+          </div>
           }
         </div>
       </div>
     </div>
 
-    <!-- System Access Section -->
+    <!-- Section for system access and roles -->
     <div class="mb-8">
       <h3 class="text-lg font-semibold text-gray-800 mb-6 m-0">System Access</h3>
-      
+
+      <!-- Role assignment dropdown -->
       <div class="flex flex-col mb-6">
         <label for="roleId" class="mb-2 font-medium text-gray-800">Assign System Role *</label>
-        <select 
-          id="roleId" 
-          formControlName="roleId" 
-          [class]="'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' + (isFieldInvalid('roleId') ? 'border-red-500' : 'border-gray-300')">
+        <select
+          id="roleId"
+          formControlName="roleId"
+          [class]="
+            'p-3 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
+            (isFieldInvalid('roleId') ? 'border-red-500' : 'border-gray-300')
+          "
+        >
           <option value="">Select role</option>
           @for (role of roles; track role.id) {
-            <option [value]="role.id">
-              {{ role.name }}
-            </option>
+          <option [value]="role.id">
+            {{ role.name }}
+          </option>
           }
         </select>
         @if (isFieldInvalid('roleId')) {
-          <div class="text-red-500 text-xs mt-1">
-            {{ getFieldError('roleId') }}
-          </div>
+        <div class="text-red-500 text-xs mt-1">
+          {{ getFieldError('roleId') }}
+        </div>
         }
       </div>
 
+      <!-- Is Active checkbox -->
       <div class="flex flex-col mt-4">
         <label class="flex items-center cursor-pointer font-normal">
-          <input type="checkbox" formControlName="isActive" class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+          <input
+            type="checkbox"
+            formControlName="isActive"
+            class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+          />
           <span class="text-gray-800">Is Active</span>
         </label>
       </div>
     </div>
 
-    <!-- Form Actions -->
+    <!-- Form action buttons (Cancel and Submit) -->
     <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
-      <button type="button" class="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white border-0 rounded-md cursor-pointer text-base font-medium transition-colors duration-200" (click)="onCancel()">Cancel</button>
-      <button type="submit" class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white border-0 rounded-md cursor-pointer text-base font-medium transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed" [disabled]="employeeForm.invalid">
+      <button
+        type="button"
+        class="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white border-0 rounded-md cursor-pointer text-base font-medium transition-colors duration-200"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white border-0 rounded-md cursor-pointer text-base font-medium transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+        [disabled]="employeeForm.invalid"
+      >
         {{ isEditMode ? 'Update' : 'Create' }}
       </button>
     </div>

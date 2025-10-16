@@ -1,44 +1,97 @@
 <div class="p-6 max-w-7xl mx-auto">
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b-2 border-blue-500 gap-4">
+  <!-- Header section for Employee Management, with a title and an "Add Employee" button. -->
+  <div
+    class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b-2 border-blue-500 gap-4"
+  >
     <h2 class="text-2xl font-bold text-gray-800 m-0">Employee Management</h2>
-    <button class="bg-green-500 hover:bg-green-600 text-white border-0 py-2 px-5 rounded-md cursor-pointer no-underline inline-block transition-colors duration-200 font-medium" routerLink="/employee/add">Add Employee</button>
+    <!-- Button to navigate to the employee creation form. -->
+    <button
+      class="bg-green-500 hover:bg-green-600 text-white border-0 py-2 px-5 rounded-md cursor-pointer no-underline inline-block transition-colors duration-200 font-medium"
+      routerLink="/employee/add"
+    >
+      Add Employee
+    </button>
   </div>
+  <!-- Container for the employee table, styled with a white background and shadow. -->
   <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <!-- Ensures the table is scrollable horizontally on smaller screens. -->
     <div class="overflow-x-auto">
+      <!-- The main table displaying employee data. -->
       <table class="w-full border-collapse">
         <thead>
           <tr class="bg-gray-50">
+            <!-- Table headers for employee details. -->
             <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Name</th>
-            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Email</th>
-            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Department</th>
-            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Job Title</th>
-            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Employment Type</th>
-            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Status</th>
-            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">Actions</th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">
+              Email
+            </th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">
+              Department
+            </th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">
+              Job Title
+            </th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">
+              Employment Type
+            </th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">
+              Status
+            </th>
+            <th class="p-4 text-left font-semibold text-gray-800 border-b border-gray-200">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
+          <!-- Loops through each employee in the observable stream to display their details. -->
           @for (employee of employees$ | async; track employee.id) {
-            <tr class="hover:bg-gray-50 transition-colors duration-150">
-              <td class="p-4 border-b border-gray-100">{{ employee.firstName }} {{ employee.lastName }}</td>
-              <td class="p-4 border-b border-gray-100">{{ employee.email }}</td>
-              <td class="p-4 border-b border-gray-100">{{ getDepartmentName(employee.departmentId) }}</td>
-              <td class="p-4 border-b border-gray-100">{{ employee.jobTitle }}</td>
-              <td class="p-4 border-b border-gray-100">{{ employee.employmentType }}</td>
-              <td class="p-4 border-b border-gray-100">
-                @if (employee.isActive) {
-                  <span class="py-1 px-3 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
-                } @else {
-                  <span class="py-1 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>
-                }
-              </td>
-              <td class="p-4 border-b border-gray-100">
-                <div class="flex gap-2">
-                  <button class="bg-blue-500 hover:bg-blue-600 text-white border-0 py-2 px-3 rounded-md cursor-pointer no-underline text-sm transition-colors duration-200 font-medium" [routerLink]="['/employee/edit', employee.id]">Edit</button>
-                  <button class="bg-red-500 hover:bg-red-600 text-white border-0 py-2 px-3 rounded-md cursor-pointer text-sm transition-colors duration-200 font-medium" (click)="onDeleteEmployee(employee.id)">Delete</button>
-                </div>
-              </td>
-            </tr>
+          <tr class="hover:bg-gray-50 transition-colors duration-150">
+            <!-- Employee's full name. -->
+            <td class="p-4 border-b border-gray-100">
+              {{ employee.firstName }} {{ employee.lastName }}
+            </td>
+            <!-- Employee's email address. -->
+            <td class="p-4 border-b border-gray-100">{{ employee.email }}</td>
+            <!-- Employee's department name, looked up by ID. -->
+            <td class="p-4 border-b border-gray-100">
+              {{ getDepartmentName(employee.departmentId) }}
+            </td>
+            <!-- Employee's job title. -->
+            <td class="p-4 border-b border-gray-100">{{ employee.jobTitle }}</td>
+            <!-- Employee's employment type. -->
+            <td class="p-4 border-b border-gray-100">{{ employee.employmentType }}</td>
+            <!-- Employee's active status, displayed as "Active" or "Inactive". -->
+            <td class="p-4 border-b border-gray-100">
+              @if (employee.isActive) {
+              <span class="py-1 px-3 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                >Active</span
+              >
+              } @else {
+              <span class="py-1 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800"
+                >Inactive</span
+              >
+              }
+            </td>
+            <!-- Action buttons for editing and deleting employee records. -->
+            <td class="p-4 border-b border-gray-100">
+              <div class="flex gap-2">
+                <!-- Button to navigate to the edit employee form. -->
+                <button
+                  class="bg-blue-500 hover:bg-blue-600 text-white border-0 py-2 px-3 rounded-md cursor-pointer no-underline text-sm transition-colors duration-200 font-medium"
+                  [routerLink]="['/employee/edit', employee.id]"
+                >
+                  Edit
+                </button>
+                <!-- Button to delete an employee, triggers a confirmation dialog. -->
+                <button
+                  class="bg-red-500 hover:bg-red-600 text-white border-0 py-2 px-3 rounded-md cursor-pointer text-sm transition-colors duration-200 font-medium"
+                  (click)="onDeleteEmployee(employee.id)"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
           }
         </tbody>
       </table>

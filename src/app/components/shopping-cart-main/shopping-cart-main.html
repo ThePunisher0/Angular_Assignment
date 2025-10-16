@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-50">
-  <!-- Header -->
+  <!-- Main header for the shopping cart application. -->
   <div class="bg-white shadow-sm border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="text-center">
@@ -8,7 +8,7 @@
           Built with Angular 20 • Components • Services • BehaviorSubject
         </p>
 
-        <!-- Feature badges -->
+        <!-- Display of feature badges, highlighting key technologies/concepts used. -->
         <div class="flex flex-wrap justify-center gap-2 mt-4">
           <span
             class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
@@ -38,40 +38,43 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-      <!-- Products Section -->
-      <div class="xl:col-span-2">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-            <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-              <svg
-                class="w-5 h-5 mr-2 text-blue-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                ></path>
-              </svg>
-              Available Products
-            </h2>
+    <!-- Main content area, structured with a responsive grid. -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <!-- Section dedicated to displaying available products. Occupies 2/3 width on extra large screens. -->
+        <div class="xl:col-span-2">
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+              <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                <!-- Icon for the products section. -->
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  ></path>
+                </svg>
+                Available Products
+              </h2>
+            </div>
+            <!-- Embeds the ProductListComponent to show the list of products. -->
+            <app-product-list></app-product-list>
           </div>
-          <app-product-list></app-product-list>
         </div>
-      </div>
 
-      <!-- Cart Section -->
-      <div class="xl:col-span-1">
-        <div class="sticky top-8">
-          <app-shopping-cart></app-shopping-cart>
+        <!-- Section dedicated to displaying the shopping cart. Occupies 1/3 width on extra large screens. -->
+        <div class="xl:col-span-1">
+          <div class="sticky top-8">
+            <!-- Embeds the ShoppingCartComponent to show the current cart contents. -->
+            <app-shopping-cart></app-shopping-cart>
+          </div>
         </div>
       </div>
     </div>

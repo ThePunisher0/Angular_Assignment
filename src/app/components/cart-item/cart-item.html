@@ -1,21 +1,22 @@
 <div
   class="flex items-center p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-150"
 >
-  <!-- Product Image -->
+  <!-- Displays the product image within the cart item -->
   <img
     [src]="cartItem.product.image"
     [alt]="cartItem.product.name"
     class="w-20 h-20 object-cover rounded-md flex-shrink-0"
   />
 
-  <!-- Product Details -->
+  <!-- Section for product name and price details -->
   <div class="flex-1 ml-4">
     <h4 class="text-lg font-medium text-gray-800">{{ cartItem.product.name }}</h4>
     <p class="text-gray-600">${{ cartItem.product.price }}</p>
   </div>
 
-  <!-- Quantity Controls -->
+  <!-- Group for quantity adjustment buttons and input field -->
   <div class="flex items-center space-x-2 mx-4">
+    <!-- Decrement quantity button, disabled if quantity is 1 or less -->
     <button
       (click)="onQuantityChange(cartItem.quantity - 1)"
       class="w-8 h-8 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full transition-colors duration-150"
@@ -26,6 +27,7 @@
       </svg>
     </button>
 
+    <!-- Input field for displaying and changing item quantity -->
     <input
       type="number"
       [value]="cartItem.quantity"
@@ -34,6 +36,7 @@
       class="w-16 text-center border border-gray-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
     />
 
+    <!-- Increment quantity button -->
     <button
       (click)="onQuantityChange(cartItem.quantity + 1)"
       class="w-8 h-8 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full transition-colors duration-150"
@@ -49,12 +52,12 @@
     </button>
   </div>
 
-  <!-- Item Total -->
+  <!-- Displays the calculated total price for this specific item -->
   <div class="text-right mx-4">
     <p class="text-lg font-semibold text-blue-600">${{ getItemTotal().toFixed(2) }}</p>
   </div>
 
-  <!-- Remove Button -->
+  <!-- Button to remove the item from the cart -->
   <button
     (click)="onRemove()"
     class="ml-4 p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors duration-150"

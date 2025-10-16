@@ -1,110 +1,127 @@
 @if (formConfig) {
-  <div class="p-6 max-w-4xl mx-auto">
-    <div class="mb-8 pb-4 border-b-2 border-blue-500">
-      <h2 class="m-0 text-2xl font-bold text-gray-800">{{ formConfig.screen_name }}</h2>
+<!-- Main container for the dynamic form, centered and with some padding. -->
+<div class="p-6 max-w-4xl mx-auto">
+  <!-- Form header section with a title from the JSON config. -->
+  <div class="mb-8 pb-4 border-b-2 border-blue-500">
+    <h2 class="m-0 text-2xl font-bold text-gray-800">{{ formConfig.screen_name }}</h2>
+  </div>
+
+  <!-- Success Message display, visible after a successful form submission. -->
+  @if (showSuccessMessage) {
+  <div class="bg-green-50 border border-green-500 rounded-md p-4 mb-6 animate-pulse">
+    <div class="flex items-center text-green-800 font-medium">
+      <span
+        class="bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center mr-3 text-xs font-bold"
+        >✓</span
+      >
+      Employee Created Successfully!
     </div>
+  </div>
+  }
 
-    <!-- Success Message -->
-    @if (showSuccessMessage) {
-      <div class="bg-green-50 border border-green-500 rounded-md p-4 mb-6 animate-pulse">
-        <div class="flex items-center text-green-800 font-medium">
-          <span class="bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center mr-3 text-xs font-bold">✓</span>
-          Employee Created Successfully!
-        </div>
-      </div>
-    }
+  <!-- The actual dynamic form, built using Angular's Reactive Forms. -->
+  <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow-md p-8">
+    <!-- Iterates through each section defined in the JSON configuration. -->
+    @for (section of formConfig.sections; track section.section_name) {
+    <div class="mb-8 pb-6 border-b border-gray-200 last:border-b-0">
+      <h3 class="m-0 mb-6 text-gray-800 text-lg font-semibold">{{ section.section_name }}</h3>
 
-    <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow-md p-8">
-      <!-- Dynamic Sections -->
-      @for (section of formConfig.sections; track section.section_name) {
-        <div class="mb-8 pb-6 border-b border-gray-200 last:border-b-0">
-          <h3 class="m-0 mb-6 text-gray-800 text-lg font-semibold">{{ section.section_name }}</h3>
-          
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            @for (field of section.fields; track field.control_name) {
-              <div class="flex flex-col">
-                
-                <!-- Text, Email, Number, Date inputs -->
-                @if (field.type === 'text' || field.type === 'email' || field.type === 'number' || field.type === 'date') {
-                  <div>
-                    <label [for]="field.control_name" class="mb-2 font-medium text-gray-800 block">
-                      {{ field.label }}
-                      @if (field.required) {
-                        <span class="text-red-500 ml-1">*</span>
-                      }
-                    </label>
-                    <input 
-                      [type]="field.type"
-                      [id]="field.control_name"
-                      [formControlName]="field.control_name"
-                      [placeholder]="field.placeholder"
-                      [class]="'p-3 border rounded-md text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 ' + (isFieldInvalid(field.control_name) ? 'border-red-500' : 'border-gray-300')">
-                    @if (isFieldInvalid(field.control_name)) {
-                      <div class="text-red-500 text-xs mt-1">
-                        {{ getFieldError(field) }}
-                      </div>
-                    }
-                  </div>
-                }
-
-                <!-- Select dropdown -->
-                @if (field.type === 'select') {
-                  <div>
-                    <label [for]="field.control_name" class="mb-2 font-medium text-gray-800 block">
-                      {{ field.label }}
-                      @if (field.required) {
-                        <span class="text-red-500 ml-1">*</span>
-                      }
-                    </label>
-                    <select 
-                      [id]="field.control_name"
-                      [formControlName]="field.control_name"
-                      [class]="'p-3 border rounded-md text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 ' + (isFieldInvalid(field.control_name) ? 'border-red-500' : 'border-gray-300')">
-                      <option value="">{{ field.placeholder }}</option>
-                      @for (option of getFieldOptions(field); track option) {
-                        <option [value]="option">
-                          {{ option }}
-                        </option>
-                      }
-                    </select>
-                    @if (isFieldInvalid(field.control_name)) {
-                      <div class="text-red-500 text-xs mt-1">
-                        {{ getFieldError(field) }}
-                      </div>
-                    }
-                  </div>
-                }
-
-                <!-- Checkbox -->
-                @if (field.type === 'checkbox') {
-                  <div class="mt-4">
-                    <label class="flex items-center cursor-pointer font-normal" [for]="field.control_name">
-                      <input 
-                        type="checkbox"
-                        [id]="field.control_name"
-                        [formControlName]="field.control_name"
-                        class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-blue-500 focus:ring-2">
-                      <span class="text-gray-800">{{ field.label }}</span>
-                    </label>
-                  </div>
-                }
-
-              </div>
+      <!-- Grid container for arranging fields within a section. -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Iterates through each field within the current section. -->
+        @for (field of section.fields; track field.control_name) {
+        <div class="flex flex-col">
+          <!-- Renders input fields for text, email, number, and date types. -->
+          @if (field.type === 'text' || field.type === 'email' || field.type === 'number' ||
+          field.type === 'date') {
+          <div>
+            <label [for]="field.control_name" class="mb-2 font-medium text-gray-800 block">
+              {{ field.label }}
+              @if (field.required) {
+              <span class="text-red-500 ml-1">*</span>
+              }
+            </label>
+            <input
+              [type]="field.type"
+              [id]="field.control_name"
+              [formControlName]="field.control_name"
+              [placeholder]="field.placeholder"
+              [class]="
+                'p-3 border rounded-md text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 ' +
+                (isFieldInvalid(field.control_name) ? 'border-red-500' : 'border-gray-300')
+              "
+            />
+            @if (isFieldInvalid(field.control_name)) {
+            <div class="text-red-500 text-xs mt-1">
+              {{ getFieldError(field) }}
+            </div>
             }
           </div>
-        </div>
-      }
+          }
 
-      <!-- Submit Button -->
-      <div class="flex justify-end mt-8 pt-6 border-t border-gray-200">
-        <button 
-          type="submit" 
-          class="px-8 py-3 text-white border-0 rounded-md cursor-pointer text-base font-medium min-w-32 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
-          [style.background-color]="formConfig.submit_button.color"
-          [disabled]="dynamicForm.invalid">
-          {{ formConfig.submit_button.label }}
-        </button>
+          <!-- Renders a select (dropdown) input. -->
+          @if (field.type === 'select') {
+          <div>
+            <label [for]="field.control_name" class="mb-2 font-medium text-gray-800 block">
+              {{ field.label }}
+              @if (field.required) {
+              <span class="text-red-500 ml-1">*</span>
+              }
+            </label>
+            <select
+              [id]="field.control_name"
+              [formControlName]="field.control_name"
+              [class]="
+                'p-3 border rounded-md text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 ' +
+                (isFieldInvalid(field.control_name) ? 'border-red-500' : 'border-gray-300')
+              "
+            >
+              <option value="">{{ field.placeholder }}</option>
+              @for (option of getFieldOptions(field); track option) {
+              <option [value]="option">
+                {{ option }}
+              </option>
+              }
+            </select>
+            @if (isFieldInvalid(field.control_name)) {
+            <div class="text-red-500 text-xs mt-1">
+              {{ getFieldError(field) }}
+            </div>
+            }
+          </div>
+          }
+
+          <!-- Renders a checkbox input. -->
+          @if (field.type === 'checkbox') {
+          <div class="mt-4">
+            <label class="flex items-center cursor-pointer font-normal" [for]="field.control_name">
+              <input
+                type="checkbox"
+                [id]="field.control_name"
+                [formControlName]="field.control_name"
+                class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-blue-500 focus:ring-2"
+              />
+              <span class="text-gray-800">{{ field.label }}</span>
+            </label>
+          </div>
+          }
+        </div>
+        }
       </div>
-    </form>
-  </div>
+    </div>
+    }
+
+    <!-- Submit button for the form. -->
+    <div class="flex justify-end mt-8 pt-6 border-t border-gray-200">
+      <button
+        type="submit"
+        class="px-8 py-3 text-white border-0 rounded-md cursor-pointer text-base font-medium min-w-32 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
+        [style.background-color]="formConfig.submit_button.color"
+        [disabled]="dynamicForm.invalid"
+      >
+        {{ formConfig.submit_button.label }}
+      </button>
+    </div>
+  </form>
+</div>
 }
